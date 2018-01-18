@@ -302,8 +302,8 @@
 		DOVDD-supply = <&vgen6_reg>;
         AVDD-supply = <&vgen5_reg>;
         DVDD-supply = <&vgen2_reg>;
-        pwn-gpios = <&gpio2 11 >;
-	rst-gpios = <&gpio4 9 >;
+        pwn-gpios = <&gpio2 11 GPIO_ACTIVE_HIGH>;
+		rst-gpios = <&gpio4 9 GPIO_ACTIVE_LOW>;
         ipu_id = <0>;
         csi_id = <1>;
         mclk = <24000000>;
@@ -695,23 +695,27 @@
 
 		uboot@0 {
 			label = "uboot";
-			reg = <0x0 0xC0000>;
+			reg = <0x0 0x80000>;
 		};
-		ubenv@C0000 {
-                        label = "uboot-env";
-                        reg = <0xC0000 0x40000>;
-                };
-		kernel@100000 {
+		kernel@80000 {
 			label = "kernel";
-			reg = <0x100000 0xA00000>;
+			reg = <0x80000 0x780000>;
 		};
-		dtb@B00000 {
+		dtb@800000 {
 			label = "dtb";
-			reg = <0xB00000 0x40000>;
+			reg = <0x800000 0x80000>;
 		};
-		rootfs@B40000 {
+		rootfs@880000 {
 			label = "rootfs";
-			reg = <0xB40000 0x34C0000>;
+			reg = <0x880000 0x1780000>;
+		};
+		user1@2000000 {
+			label = "user1";
+			reg = <0x2000000 0x800000>;
+		};
+		user2@2800000 {
+			label = "user2";
+			reg = <0x2800000 0x1800000>;
 		};
 	};
 	
