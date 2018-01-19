@@ -204,8 +204,8 @@
 		DOVDD-supply = <&vgen6_reg>;
         AVDD-supply = <&vgen5_reg>;
         DVDD-supply = <&vgen2_reg>;
-        pwn-gpios = <&gpio2 11 >;
-	rst-gpios = <&gpio4 9 >;
+        pwn-gpios = <&gpio2 11 1>;
+	rst-gpios = <&gpio4 9 1 >;
         ipu_id = <0>;
         csi_id = <1>;
         mclk = <24000000>;
