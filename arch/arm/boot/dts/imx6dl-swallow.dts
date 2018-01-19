@@ -6,7 +6,6 @@
 
 #include "imx6dl.dtsi"
 
-
 / 
 
 {
@@ -16,7 +15,7 @@
 
 
 	chosen {
-		bootargs = "quiet console=ttymxc0,115200 root=/dev/mmcblk0p2 rw";
+		bootargs = "quiet console=ttymxc0,115200";
 	};
 
 	aliases {
@@ -26,51 +25,7 @@
 	regulators {
 		compatible = "simple-bus";
 
-/*		reg_3p3v: 3p3v {
-			compatible = "regulator-fixed";
-			regulator-name = "3P3V";
-			regulator-min-microvolt = <3300000>;
-			regulator-max-microvolt = <3300000>;
-			regulator-always-on;
-		};
 
-		reg_1p8v: 1p8v {
-			compatible = "regulator-fixed";
-			regulator-name = "1P8V";
-			regulator-min-microvolt = <1800000>;
-                        regulator-max-microvolt = <1800000>;
-                        regulator-always-on;
-		};
-
-		reg_1p5v: 1p5v {
-                        compatible = "regulator-fixed";
-                        regulator-name = "1P5V";
-                        regulator-min-microvolt = <1500000>;
-                        regulator-max-microvolt = <1500000>;
-                        regulator-always-on;
-                };
-
-
-		reg_2p8v: 2p8v {
-                        compatible = "regulator-fixed";
-                        regulator-name = "2P8V";
-                        regulator-min-microvolt = <2800000>;
-                        regulator-max-microvolt = <2800000>;
-                        regulator-always-on;
-                };
-*/
-
-/*		reg_usbh1_vbus: usb-h1-vbus {
-			compatible = "regulator-fixed";
-			enable-active-high;
-			gpio = <&gpio1 0 0>;
-			pinctrl-names = "default";
-			pinctrl-0 = <&pinctrl_swallow_usbh1_vbus>;
-			regulator-name = "usb_h1_vbus";
-			regulator-min-microvolt = <5000000>;
-			regulator-max-microvolt = <5000000>;
-		};
-*/
 		reg_usbotg_vbus: usb-otg-vbus {
 			compatible = "regulator-fixed";
             enable-active-high;
@@ -82,53 +37,9 @@
 			regulator-max-microvolt = <5000000>;
 		};
 
-		wlreg_on: wl-reg {
-			compatible = "regulator-fixed";
- 			regulator-min-microvolt = <3300000>;
- 			regulator-max-microvolt = <3300000>;
- 			regulator-name = "wlreg_on";
-            pinctrl-names = "default";
-			pinctrl-0 = <&pinctrl_swallow_wifi_wlreg>;
- 			gpio = <&gpio4 30 0>; /* WL_REG_ON */
- 			startup-delay-us = <60000>; /* WL_REG_ON preferred is 60000: default 500 */
- 			enable-active-high;
- 			/*regulator-boot-on;*/
- 			regulator-always-on;
-		};
 
-		btreg_on: bt-reg {
-			compatible = "regulator-fixed";
- 			regulator-min-microvolt = <3300000>;
- 			regulator-max-microvolt = <3300000>;
- 			regulator-name = "btreg_on";
-            pinctrl-names = "default";
-			pinctrl-0 = <&pinctrl_swallow_wifi_btreg>;
- 			gpio = <&gpio4 26 0>; /* BT_REG_ON */
-			startup-delay-us = <60000>;
- 			enable-active-high;
- 			/*regulator-boot-on;*/
- 			regulator-always-on;
-		};
 	};
 
-	bcmdhd_wlan {
-		compatible = "android,bcmdhd_wlan";
-                pinctrl-names = "default";
-                pinctrl-0 = <&pinctrl_swallow_wifi>;
-//		bt_dev_wake_gpio = <&gpio4 27 0>; /* BT_DEV_WAKE */
-//		bt_host_wake_gpio = <&gpio4 28 0>; /* BT_HOST_WAKE */
-		gpios = <&gpio4 29 0>; /* WL_GPIO_0 */
-		wlreg_on-supply = <&wlreg_on>;
-		btreg_on-supply = <&btreg_on>;
-	};
-
-
-	sound-hdmi {
-		compatible = "fsl,imx6q-audio-hdmi",
-			     "fsl,imx-audio-hdmi";
-		model = "imx-audio-hdmi";
-		hdmi-controller = <&hdmi_audio>;
-	};
 
 	mxcfb1: fb@0 {
 		compatible = "fsl,mxc_sdc_fb";
@@ -168,21 +79,6 @@
 	status = "okay";
 };
 
-&hdmi_video {
-	fsl,phy_reg_vlev = <0x0294>;
-	fsl,phy_reg_cksymtx = <0x800d>;
-	status = "okay";
-};
-
-&hdmi_audio {
-	status = "okay";
-};
-
-&hdmi_cec {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_swallow_hdmi>;
-	status = "okay";
-};
 
 &i2c2 {
 	clock-frequency = <100000>;
@@ -291,10 +187,6 @@
 	status = "okay";
 };
 
-&can1 {
-	pinctrl-names = "default";
-	status = "okay";
-};
 
 &i2c1 {
 	clock-frequency = <400000>;
@@ -302,7 +194,7 @@
 	pinctrl-0 = <&pinctrl_swallow_i2c1>;
 	status = "okay";
 
-	/*LKBR camera, OV5640*/
+	/* camera, OV5640*/
 	ov5640_mipi: ov5640_mipi@3c {
 		compatible = "ovti,ov5640_mipi";
 		reg = <0x3c>;
@@ -476,27 +368,6 @@
             >;
 		};
 
-        pinctrl_swallow_wifi: swallow-wifi {
-			fsl,pins = <
-//                MX6QDL_PAD_DISP0_DAT6__GPIO4_IO27   0x0001B0B0		// BT_DEV_WAKE
-//                MX6QDL_PAD_DISP0_DAT7__GPIO4_IO28   0x0001B0B0		// BT_HOST_WAKE
-                MX6QDL_PAD_DISP0_DAT8__GPIO4_IO29   0x0001B030		// WL_GPIO_0
-			>;
-
-		};
-
-        pinctrl_swallow_wifi_wlreg: swallow-wifi-wlreg {
-			fsl,pins = <
-				MX6QDL_PAD_DISP0_DAT9__GPIO4_IO30	0x30			// WL_REG_ON
-			>;
-		};
-
-        pinctrl_swallow_wifi_btreg: swallow-wifi-btreg {
-			fsl,pins = <
-                MX6QDL_PAD_DISP0_DAT5__GPIO4_IO26	0x30			// BT_REG_ON
-			>;
-
-		};
 
 	};
 
@@ -607,42 +478,6 @@
 	status = "okay";
 };
 
-// SD1 connected to Broadcom WiFi/BT module
-&usdhc1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <
-		&pinctrl_swallow_usdhc1
-	>;
-	bus-width = <4>;
-	enable-sdio-wakeup;
-	max-frequency = <25000000>;
-//	vmmc-supply = <&vccsd>;
-	status = "okay";
-};
-
-&usdhc2 {
-	pinctrl-names = "default";
-	pinctrl-0 = <
-		&pinctrl_swallow_usdhc2_aux
-		&pinctrl_swallow_usdhc2
-	>;
-//	vmmc-supply = <&vccsd>;
-	cd-gpios = <&gpio1 4 0>;
-	status = "okay";
-};
-
-&usdhc3 {
-	pinctrl-names = "default";
-	pinctrl-0 = <
-		&pinctrl_swallow_usdhc3
-	>;
-	bus-width = <8>;
-	no-1-8-v;
-//	vmmc-supply = <&vccsd>;
-	/*cd-gpios = <&gpio1 4 0>;*/
-	enable-sdio-wakeup;
-	status = "okay";
-};
 
 &gpc {
 	fsl,cpu_pupscr_sw2iso = <0xf>;
@@ -725,13 +560,6 @@
 		};
 	};
 	
-#if 0
-	windbond_flash: w25m512jv@0x00 {
-		compatible = "winbond,w25m512jv", "jedec,spi-nor";
-		spi-max-frequency = <50000000>;
-		reg = <0>;
-	};
-#endif
 };
 
 
