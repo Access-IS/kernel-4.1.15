@@ -11,7 +11,7 @@
 {
 
  	model = "Access-IS Swallow";
-        compatible = "Access-IS, swallow/dl", "fsl,imx6dl";
+        compatible = "Access-IS, swallow", "fsl,imx6dl";
 
 
 	chosen {
@@ -28,7 +28,7 @@
 
 		reg_usbotg_vbus: usb-otg-vbus {
 			compatible = "regulator-fixed";
-            enable-active-high;
+			enable-active-high;
 			gpio = <&gpio3 22 0>;
 			pinctrl-names = "default";
 			pinctrl-0 = <&pinctrl_swallow_usbotg_vbus>;
@@ -287,9 +287,9 @@
 			>;
 		};
 
-//		pinctrl_swallow_usbh1_vbus: swallow-usbh1-vbus {
-//			fsl,pins = <MX6QDL_PAD_GPIO_0__GPIO1_IO00 0x1b0b0>;
-//		};
+		pinctrl_swallow_usbh1_vbus: swallow-usbh1-vbus {
+			fsl,pins = <MX6QDL_PAD_GPIO_0__GPIO1_IO00 0x1b0b0>;
+		};
 
 		pinctrl_swallow_usbotg_id: swallow-usbotg-id {
 			/*
