@@ -248,9 +248,7 @@
 			>;
 		};
 
-		pinctrl_swallow_usbh1_vbus: swallow-usbh1-vbus {
-			fsl,pins = <MX6QDL_PAD_GPIO_0__GPIO1_IO00 0x1b0b0>;
-		};
+	
 
 		pinctrl_swallow_usbotg_id: swallow-usbotg-id {
 			fsl,pins = <MX6QDL_PAD_ENET_RX_ER__USB_OTG_ID 0x1B059>; 
