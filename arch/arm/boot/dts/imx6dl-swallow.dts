@@ -10,7 +10,7 @@
 
 {
 
- 	model = "Access-IS Swallow";
+ 	model = "Access-IS LKBR";
         compatible = "Access-IS, swallow", "fsl,imx6dl";
 
 
