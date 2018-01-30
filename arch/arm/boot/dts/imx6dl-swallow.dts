@@ -269,9 +269,10 @@
             >;
 		};
 		
-		pinctrl_pwm2: pwm2grp {
+		pinctrl_swallow_pwm2: swallow_pwm2 {
 			fsl,pins = <
-				MX6QDL_PAD_GPIO_1__PWM2_OUT		0x1b0b1
+				MX6QDL_PAD_GPIO_1__PWM2_OUT	0x1b0b1
+
 			>;
 		};
 
@@ -435,8 +436,7 @@
 
 &pwm2 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_pwm2>;
-	#pwm-cells = <3>;
+	pinctrl-0 = <&pinctrl_swallow_pwm2>;
 	status = "okay";
 };
 
