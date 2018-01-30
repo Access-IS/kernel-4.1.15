@@ -248,8 +248,6 @@
 			>;
 		};
 
-	
-
 		pinctrl_swallow_usbotg_id: swallow-usbotg-id {
 			fsl,pins = <MX6QDL_PAD_ENET_RX_ER__USB_OTG_ID 0x1B059>; 
 		};
@@ -257,8 +255,6 @@
 		pinctrl_swallow_usbotg_vbus: swallow-usbotg-vbus {
 			fsl,pins = <MX6QDL_PAD_EIM_D22__GPIO3_IO22 0x1b0b0>;
 		};
-
-
 
 		pinctrl_swallow_mipi: swallow_mipi {
 			fsl,pins = <
@@ -271,13 +267,23 @@
 		
 		pinctrl_swallow_pwm2: swallow_pwm2 {
 			fsl,pins = <
-				MX6QDL_PAD_GPIO_1__PWM2_OUT	0x1b0b1
-
+				MX6QDL_PAD_GPIO_1__PWM2_OUT			0x1b0b1
 			>;
 		};
-
-
-
+		
+		pinctrl_swallow_pwm3: swallow_pwm3 {
+			fsl,pins = <
+				 MX6QDL_PAD_SD4_DAT1__PWM3_OUT		0x1b0b1
+               	
+			>;
+		};
+		
+		pinctrl_swallow_pwm4: swallow_pwm4 {
+			fsl,pins = <
+				 MX6QDL_PAD_SD4_DAT2__PWM4_OUT		0x1b0b1
+			>;
+		};
+		
 		pinctrl_swallow_uart1: swallow-uart1 {
 			fsl,pins = <
 				MX6QDL_PAD_CSI0_DAT10__UART1_TX_DATA	0x1b0b1
@@ -438,6 +444,18 @@
 &pwm2 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_swallow_pwm2>;
+	status = "okay";
+};
+
+&pwm3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_swallow_pwm3>;
+	status = "okay";
+};
+
+&pwm4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_swallow_pwm4>;
 	status = "okay";
 };
 
