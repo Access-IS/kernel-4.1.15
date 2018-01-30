@@ -268,6 +268,13 @@
                 MX6QDL_PAD_NANDF_CS3__GPIO6_IO16    0x1B0B0     // CAM_STROBE
             >;
 		};
+		
+		pinctrl_pwm2: pwm2grp {
+			fsl,pins = <
+				MX6QDL_PAD_GPIO_1__PWM2_OUT		0x1b0b1
+			>;
+		};
+
 
 
 	};
@@ -423,6 +430,13 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_swallow_uart4>;
 	fsl,uart-has-rtscts;
+	status = "okay";
+};
+
+&pwm2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pwm2>;
+	#pwm-cells = <3>;
 	status = "okay";
 };
 
