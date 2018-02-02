@@ -175,6 +175,7 @@ typedef struct _cam_data {
 	int green;
 	int blue;
 	int ae_mode;
+	s32 exposure; // 11Aug2015 AL added
 
 	/* standard */
 	struct v4l2_streamparm streamparm;
