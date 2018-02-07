@@ -478,21 +478,20 @@
 			reg = <0x0 0xC0000>;
 		};
 		ubenv@C0000 {
-                        label = "uboot-env";
-                        reg = <0xC0000 0x40000>;
-                };
+             label = "uboot-env";
+             reg = <0xC0000 0x40000>;
+        };
         dtb@100000 {
 			label = "dtb";
-			reg = <0x100000 0x40000>;
+			reg = <0x100000 0x100000>;
 		};
 		kernel@140000 {
 			label = "kernel";
-			reg = <0x140000 0xA00000>;
+			reg = <0x200000 0xA00000>;
 		};
-	
 		rootfs@B40000 {
 			label = "rootfs";
-			reg = <0xB40000 0x34C0000>;
+			reg = <0xC00000 0x3400000>;
 		};
 	};
 	
