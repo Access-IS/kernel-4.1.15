@@ -1,0 +1,80 @@
+#!/bin/sh
+[ -d /dev ] || mkdir -m 0755 /dev
+[ -d /root ] || mkdir -m 0700 /root
+[ -d /sys ] || mkdir /sys
+[ -d /proc ] || mkdir /proc
+[ -d /tmp ] || mkdir /tmp
+[ -d /run ] || mkdir /run
+mkdir -p /var/lock
+mount -t sysfs -o nodev,noexec,nosuid sysfs /sys
+mount -t proc -o nodev,noexec,nosuid proc /proc
+ln -sf /proc/mounts /etc/mtab
+
+if ! mount -t devtmpfs -o mode=0755 udev /dev; then
+        mount -t tmpfs -o mode=0755 udev /dev
+        [ -e /dev/console ] || mknod -m 0600 /dev/console c 5 1
+        [ -e /dev/zero ] || mknod -m 0600 /dev/zero c 1 5
+        [ -e /dev/null ] || mknod /dev/null c 1 3
+fi
+
+mkdir /dev/pts
+mount -t devpts -o noexec,nosuid,gid=5,mode=0620 devpts /dev/pts || true
+mount -t tmpfs -o "noexec,nosuid,size=10%,mode=0755" tmpfs /run
+mkdir /run/initramfs
+/sbin/mdev -s
+
+mkdir /base
+e2fsck -y /dev/mtdblock4
+
+if ! mount -t ext4 /dev/mtdblock4 /base ; then  
+	echo "mounting mtd4 failed, forcing filecheck / repair " ; 
+	fsck.ext4 -f -y  /dev/mtdblock4
+	echo "restarting"
+	echo b > /proc/sysrq-trigger
+fi
+[ -f /base/rootfs.squashfs ] || ( echo "roootfs.sqaush is missing"; /bin/sh ) 
+[ -f /base/MD5SUM ] || ( echo "checksum file is missing"; /bin/sh ) 
+
+# this takes a very long time
+#echo -n "checking rootfs integrity "
+#if ! md5sum -c  /base/MD5SUM ; then
+#echo "root squash md5sum mismatch"
+#exec /bin/sh
+#fi
+
+[ -d /base/ro ] || mkdir /base/ro
+mount -o ro /base/rootfs.squashfs /base/ro
+[ -d /base/rw ] || mkdir /base/rw
+[ -d /base/upper ] || mkdir /base/upper
+[ -d /base/tmp ] || mkdir /base/tmp
+[ -d /base/newroot ] || mkdir /base/newroot
+[ -d /base/mach ] || mkdir /base/mach
+
+# system reset
+if [ -e /base/.reset ] ; then
+	echo "resetting system"
+	rm -rf /base/upper/*
+	rm -rf /base/.reset
+fi
+
+
+if [ -e /base/ovl/mach.squash ] ;
+then
+	echo "creating root+machine overlay"
+	mount /base/ovl/mach.squash /base/mach
+	mount -t overlay -o lowerdir=/base/mach:/base/ro,upperdir=/base/upper,workdir=/base/tmp overlay /base/newroot
+else
+	echo "creating root only overlay"
+	mount -t overlay -o lowerdir=/base/ro,upperdir=/base/upper,workdir=/base/tmp overlay /base/newroot
+fi
+
+mount -t tmpfs tmpfs /base/newroot/var 
+mount -t tmpfs tmpfs /base/newroot/tmp 
+mkdir /base/newroot/var/log
+mkdir /base/newroot/var/run
+
+mount -n -o move /sys /base/newroot/sys
+mount -n -o move /proc /base/newroot/proc
+mount --bind /dev /base/newroot/dev
+exec switch_root /base/newroot /sbin/init
+
