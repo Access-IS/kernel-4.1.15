@@ -5,12 +5,13 @@
 [ -d /proc ] || mkdir /proc
 [ -d /tmp ] || mkdir /tmp
 [ -d /run ] || mkdir /run
+
 mkdir -p /var/lock
 mount -t sysfs -o nodev,noexec,nosuid sysfs /sys
 mount -t proc -o nodev,noexec,nosuid proc /proc
 ln -sf /proc/mounts /etc/mtab
 
-if ! mount -t devtmpfs -o mode=0755 udev /dev; then
+if ! mount -t devtmpfs none /dev; then
         mount -t tmpfs -o mode=0755 udev /dev
         [ -e /dev/console ] || mknod -m 0600 /dev/console c 5 1
         [ -e /dev/zero ] || mknod -m 0600 /dev/zero c 1 5
