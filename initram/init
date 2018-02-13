@@ -25,23 +25,10 @@ mkdir /run/initramfs
 /sbin/mdev -s
 
 mkdir /base
-e2fsck -y /dev/mtdblock4
+mount -t jffs2 /dev/mtdblock4 /base
 
-if ! mount -t ext4 /dev/mtdblock4 /base ; then  
-	echo "mounting mtd4 failed, forcing filecheck / repair " ; 
-	fsck.ext4 -f -y  /dev/mtdblock4
-	echo "restarting"
-	echo b > /proc/sysrq-trigger
-fi
 [ -f /base/rootfs.squashfs ] || ( echo "roootfs.sqaush is missing"; /bin/sh ) 
 [ -f /base/MD5SUM ] || ( echo "checksum file is missing"; /bin/sh ) 
-
-# this takes a very long time
-#echo -n "checking rootfs integrity "
-#if ! md5sum -c  /base/MD5SUM ; then
-#echo "root squash md5sum mismatch"
-#exec /bin/sh
-#fi
 
 [ -d /base/ro ] || mkdir /base/ro
 mount -o ro /base/rootfs.squashfs /base/ro
