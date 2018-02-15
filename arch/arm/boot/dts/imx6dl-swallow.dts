@@ -485,14 +485,23 @@
 			label = "dtb";
 			reg = <0x100000 0x100000>;
 		};
-		kernel@140000 {
+		kernel@200000 {
 			label = "kernel";
 			reg = <0x200000 0xA00000>;
 		};
-		rootfs@B40000 {
-			label = "rootfs";
-			reg = <0xC00000 0x3400000>;
+		rootro@c00000 {
+			label = "root-ro";
+			reg = <0xC00000 0x1000000>;
 		};
+		rootrw@1c00000 {
+			label = "root-rw";
+			reg = <0x1C00000 0x800000>;
+		};
+		spare@2400000 {
+			label = "root-rw";
+			reg = <0x2400000 0x1c00000>;
+		};
+		
 	};
 	
 };
