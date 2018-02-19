@@ -273,6 +273,7 @@ dtb-$(CONFIG_SOC_IMX6Q) += \
 	imx6dl-mcs.dtb \
 	imx6dl-mtp.dtb \
 	imx6dl-lkbr.dtb \
+	imx6dl-s16.dtb \
 	imx6dl-swallow.dtb \
 	imx6dl-nit6xlite.dtb \
 	imx6dl-nitrogen6_max.dtb \
