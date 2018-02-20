@@ -1244,7 +1244,7 @@ static int mxc_v4l2_s_ctrl(cam_data *cam, struct v4l2_control *c)
 			ret = -ENODEV;
 		}
 		break;
-    case V4L2_CID_EXPOSURE_AUTO:
+	case V4L2_CID_EXPOSURE:
 		if (cam->sensor) {
 			cam->ae_mode = c->value;
 			ret = vidioc_int_s_ctrl(cam->sensor, c);
@@ -1253,24 +1253,6 @@ static int mxc_v4l2_s_ctrl(cam_data *cam, struct v4l2_control *c)
 			ret = -ENODEV;
 		}
 		break;
-    case V4L2_CID_EXPOSURE:
-		if (cam->sensor) {
-            cam->exposure = c->value;
-			ret = vidioc_int_s_ctrl(cam->sensor, c);
-		} else {
-			pr_err("ERROR: v4l2 capture: slave not found!\n");
-			ret = -ENODEV;
-		}
-		break;
-
-    case V4L2_CID_GAIN:
-        if (cam->sensor) {
-            ret = vidioc_int_s_ctrl(cam->sensor, c);
-        } else {
-            pr_err("ERROR: v4l2 capture: slave not found!\n");
-            ret = -ENODEV;
-        }
-        break;
 	case V4L2_CID_MXC_FLASH:
 #ifdef CONFIG_MXC_IPU_V1
 		ipu_csi_flash_strobe(true);
