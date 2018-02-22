@@ -28,9 +28,9 @@
 			MX6QDL_PAD_SD3_DAT6__SD3_DATA6		0x17059
 			MX6QDL_PAD_SD3_DAT7__SD3_DATA7		0x17059
 			MX6QDL_PAD_SD3_RST__SD3_RESET		0x17059
-		>;
-		
-		pinctrl_ar8035: enet-ar8035 {
+			>;
+		};
+		pinctrl_ar8035: ar8035grp {
 			fsl,pins = <
 				MX6QDL_PAD_ENET_MDIO__ENET_MDIO		0x1b8b0
 				MX6QDL_PAD_ENET_MDC__ENET_MDC		0x1b0b0
@@ -71,10 +71,9 @@
 				MX6QDL_PAD_ENET_CRS_DV__GPIO1_IO25	0x03000
 				MX6QDL_PAD_ENET_RXD0__GPIO1_IO27	0x03000
 				MX6QDL_PAD_ENET_RXD1__GPIO1_IO26	0x03000
-			>;
-		};
-	};
-	};
+				>;
+			};
+	}; // swallow
 };
 
 &usdhc2 {
