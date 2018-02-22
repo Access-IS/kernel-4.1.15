@@ -9,6 +9,7 @@
 #include "imx6dl.dtsi"
 #include "imx6dl-swallow-peripherals.dtsi"
 
+
 / 
 
 {
@@ -53,7 +54,19 @@
 			regulator-max-microvolt = <5000000>;
 		};
 
-
+			wlreg_on: wl-reg {
+			compatible = "regulator-fixed";
+ 			regulator-min-microvolt = <3300000>;
+ 			regulator-max-microvolt = <3300000>;
+ 			regulator-name = "wlreg_on";
+            pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_wifi_wlreg>;
+ 			gpio = <&gpio4 30 0>; /* WL_REG_ON */
+ 			startup-delay-us = <60000>; /* WL_REG_ON preferred is 60000: default 500 */
+ 			enable-active-high;
+ 			/*regulator-boot-on;*/
+ 			regulator-always-on;
+			};
 	};
 
 
@@ -86,6 +99,11 @@
 		mipi_camera = <1>;
 		default_input = <0>;
 		status = "okay";
+	};
+	
+	bcmdhd_wlan_0: bcmdhd_wlan {
+			compatible = "android,bcmdhd_wlan";
+			wlreg_on-supply = <&wlreg_on>;
 	};
 };
 
@@ -189,6 +207,8 @@
 				regulator-max-microvolt = <1800001>;
 				regulator-always-on;
 			};
+			
+
 		};
 	};
 };
@@ -344,6 +364,23 @@
 				MX6QDL_PAD_DISP0_DAT1__ECSPI3_MOSI	0x1b0b1
 				MX6QDL_PAD_DISP0_DAT0__ECSPI3_SCLK	0x1b0b1
 				MX6QDL_PAD_DISP0_DAT3__GPIO4_IO24	0x1b0b1
+			>;
+		};
+		
+			pinctrl_usdhc1: usdhc1grp {
+			fsl,pins = <
+				MX6QDL_PAD_SD1_CMD__SD1_CMD			0x17059
+				MX6QDL_PAD_SD1_CLK__SD1_CLK			0x10059
+				MX6QDL_PAD_SD1_DAT0__SD1_DATA0		0x17059
+				MX6QDL_PAD_SD1_DAT1__SD1_DATA1		0x17059
+				MX6QDL_PAD_SD1_DAT2__SD1_DATA2		0x17059
+				MX6QDL_PAD_SD1_DAT3__SD1_DATA3		0x17059
+			>;
+		};
+
+		 pinctrl_wifi_wlreg: wifi-wlreg {
+			fsl,pins = <
+				MX6QDL_PAD_DISP0_DAT9__GPIO4_IO30	0x30
 			>;
 		};
 
@@ -520,6 +557,18 @@
 		
 	};
 	
+};
+
+&usdhc1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usdhc1>;
+	bus-width = <4>;
+	no-1-8-v;
+	non-removable;
+	cd-post;
+	pm-ignore-notify;
+	wifi-host;
+	status = "okay";
 };
 
 
