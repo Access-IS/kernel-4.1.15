@@ -3,8 +3,11 @@
  * Based on work by Solid Run & Russell King
  */
 /dts-v1/;
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
 
 #include "imx6dl.dtsi"
+#include "imx6dl-swallow-sd.dtsi"
 
 / 
 
@@ -388,8 +391,7 @@
 				MX6QDL_PAD_ENET_RXD1__GPIO1_IO26	0x03000
 			>;
 		};
-
-
+		
 
 
 	};
