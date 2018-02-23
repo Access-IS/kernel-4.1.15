@@ -57,8 +57,10 @@
 		 wlreg_on: fixedregulator {
 			compatible = "regulator-fixed";
 			regulator-name = "wlreg_on";
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_wifi_wlreg>;
 			gpio = <&gpio4 30 0>;
-			startup-delay-us = <100>;
+			startup-delay-us = <60000>;
 			enable-active-high;
 		};
 			
