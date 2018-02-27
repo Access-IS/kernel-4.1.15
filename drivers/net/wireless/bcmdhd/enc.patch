@@ -1,0 +1,122 @@
+--- dhd_sdio.c	2015-05-21 17:29:52.443697426 +0800
++++ /home/hungyi/4356/WM-BAC-BM-19_WiFi_Driver_src_p2p_2014_12_16/WM-BAC-BM-19_WiFi_Driver_src_enc_2015_03_17/bcmdhd/dhd_sdio.c	2015-03-17 12:15:22.300188119 +0800
+@@ -152,6 +152,15 @@
+ #endif /* (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 25)) */
+ #endif 
+ 
++#ifdef _USI_NVRAM_FILE
++typedef int (*funcptr)(void *bus, bool write, uint32 address, uint8 *data, uint size);
++extern int ug_nvram(bcmsdh_info_t *sdh,osl_t *osh, void *nvram, int len);
++extern int ug_fw_prepare(void *sdh, void *osh, uint8 *memptr, uint32 memlen
++    , uint32 bus_ramsize, void *image, void **priv);
++extern int ug_fw_get_block(char *memptr, uint32 memlen, uint32 offset, void *priv);
++extern int ug_fw_close(void *osh, void *priv);
++#endif /* _USI_NVRAM_FILE */
++
+ #ifdef DHD_DEBUG
+ /* Device console log buffer state */
+ #define CONSOLE_LINE_MAX	192
+@@ -7929,6 +7934,10 @@
+ 	void *image = NULL;
+ 	uint8 *memblock = NULL, *memptr;
+ 
++#if defined(DHD_DEBUG)
++	ktime_t prev, now;
++#endif /* DHD_DEBUG */
++
+ 	DHD_INFO(("%s: download firmware %s\n", __FUNCTION__, pfw_path));
+ 
+ 	image = dhd_os_open_image(pfw_path);
+@@ -7943,7 +7952,54 @@
+ 	if ((uint32)(uintptr)memblock % DHD_SDALIGN)
+ 		memptr += (DHD_SDALIGN - ((uint32)(uintptr)memblock % DHD_SDALIGN));
+ 
++#if defined(DHD_DEBUG)
++	prev = ktime_get_real();
++#endif /* DHD_DEBUG */
++
+ 	/* Download image */
++#ifdef _USI_NVRAM_FILE
++	{
++	int ret = -1;
++	void *priv;
++	int fw_offset = 0;
++
++	ret = ug_fw_prepare(bus->sdh, bus->dhd->osh, memptr, MEMBLOCK, bus->ramsize, image, &priv);
++	if ( ret < 0 ) {
++	    DHD_ERROR(("%s: prepare F/W fail ret=%d\n", __FUNCTION__, ret));
++	    ret = ug_fw_close(bus->dhd->osh, priv);
++            goto err;
++	}
++	while ((len = ug_fw_get_block((char*)memptr, MEMBLOCK, fw_offset, priv))) {
++		if (len < 0) {
++			DHD_ERROR(("%s: ug_fw_get_block failed (%d)\n", __FUNCTION__, len));
++			bcmerror = BCME_ERROR;
++			goto err;
++		}
++		/* check if CR4 */
++		if (si_setcore(bus->sih, ARMCR4_CORE_ID, 0)) {
++			/* if address is 0, store the reset instruction to be written in 0 */
++
++			if (offset == 0) {
++				bus->resetinstr = *(((uint32*)memptr));
++				/* Add start of RAM address to the address given by user */
++				offset += bus->dongle_ram_base;
++			}
++		}
++
++		bcmerror = dhdsdio_membytes(bus, TRUE, offset, memptr, len);
++		if (bcmerror) {
++			DHD_ERROR(("%s: error %d on writing %d membytes at 0x%08x\n",
++			        __FUNCTION__, bcmerror, MEMBLOCK, offset));
++			goto err;
++		}
++
++		offset += MEMBLOCK;
++		fw_offset += MEMBLOCK;
++	}
++
++	ret = ug_fw_close(bus->dhd->osh, priv);
++	}
++#else /* !_USI_NVRAM_FILE */
+ 	while ((len = dhd_os_get_image_block((char*)memptr, MEMBLOCK, image))) {
+ 		if (len < 0) {
+ 			DHD_ERROR(("%s: dhd_os_get_image_block failed (%d)\n", __FUNCTION__, len));
+@@ -7970,13 +8026,20 @@
+ 
+ 		offset += MEMBLOCK;
+ 	}
++#endif /* !_USI_NVRAM_FILE */
+ 
+ err:
++#if defined(DHD_DEBUG)
++	now = ktime_get_real();
++#endif /* DHD_DEBUG */
+ 	if (memblock)
+ 		MFREE(bus->dhd->osh, memblock, MEMBLOCK + DHD_SDALIGN);
+ 
+ 	if (image)
+ 		dhd_os_close_image(image);
++#if defined(DHD_DEBUG)
++	DHD_ERROR(("\n%s: download time %llu us\n", __FUNCTION__, ktime_to_us(ktime_sub(now,prev)) ));
++#endif /* DHD_DEBUG */
+ 
+ 	return bcmerror;
+ }
+@@ -8040,6 +8103,16 @@
+ 		ASSERT(len <= MAX_NVRAMBUF_SIZE);
+ 		memcpy(memblock, bus->nvram_params, len);
+ 	}
++#ifdef _USI_NVRAM_FILE
++	{
++	int ret = 0;
++	ret = ug_nvram(bus->sdh, bus->dhd->osh, memblock, len);
++#ifdef DHD_DEBUG
++	DHD_INFO(("%s: bus:%p, mem:%p len:%x ret=%d\n", __FUNCTION__
++		, bus, memblock, len, ret));
++#endif /* DHD_DEBUG */
++	}
++#endif /* _USI_NVRAM_FILE */
+ 	if (len > 0 && len < MAX_NVRAMBUF_SIZE) {
+ 		bufp = (char *)memblock;
+ 		bufp[len] = 0;
