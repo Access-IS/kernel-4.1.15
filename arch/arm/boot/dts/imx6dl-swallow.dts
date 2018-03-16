@@ -47,13 +47,19 @@
 		pinctrl-0 = <&pinctrl_led>;
 		
 
-		led0: boost_en {
-			label = "boost";
-			gpios = <&gpio6 8 GPIO_ACTIVE_HIGH>; 
+		led0: led-ir {
+			label = "IR";
+			gpios = <&gpio6 7 GPIO_ACTIVE_HIGH>; 
 			default-state = "off";
 			linux,default-trigger = "oneshot";
 		};
 		
+		led1: led-white {
+			label = "white";
+			gpios = <&gpio6 9 GPIO_ACTIVE_HIGH>; 
+			default-state = "off";
+			linux,default-trigger = "oneshot";
+		};
 		
 	};
 
@@ -350,9 +356,9 @@
 		
 		pinctrl_led: ledgrp {
 			fsl,pins = <
-		//		MX6QDL_PAD_NANDF_CLE__GPIO6_IO07		0x1b0b1	/* IR */
-				MX6QDL_PAD_NANDF_ALE__GPIO6_IO08		0x1b0b1 /* booost */
-		//		MX6QDL_PAD_NANDF_WP_B__GPIO6_IO09		0x1b0b1	/* white */
+				MX6QDL_PAD_NANDF_CLE__GPIO6_IO07		0x1b0b1	/* IR */
+		//		MX6QDL_PAD_NANDF_ALE__GPIO6_IO08		0x1b0b1 /* booost */
+				MX6QDL_PAD_NANDF_WP_B__GPIO6_IO09		0x1b0b1	/* white */
 		//		MX6QDL_PAD_NANDF_RB0__GPIO6_IO10		0x1b0b1 /* HI LOW - cotrol this from app or init*/
 			>;
 		};
