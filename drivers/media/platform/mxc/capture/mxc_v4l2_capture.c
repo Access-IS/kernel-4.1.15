@@ -52,7 +52,7 @@
 
 #define init_MUTEX(sem)         sema_init(sem, 1)
 
-static int ir_gpio, white_gpio;
+static int ir_gpio, white_gpio, ledstate;
 
 static struct platform_device_id imx_v4l2_devtype[] = {
 	{
@@ -2183,6 +2183,11 @@ static long mxc_v4l_do_ioctl(struct file *file,
 
 		buf->flags = cam->frame[index].buffer.flags;
 		spin_unlock_irqrestore(&cam->queue_int_lock, lock_flags);
+		
+		ledstate = !ledstate ;
+		
+		gpio_set_value(ir_gpio,ledstate);
+		
 		break;
 	}
 
@@ -2200,6 +2205,7 @@ static long mxc_v4l_do_ioctl(struct file *file,
 		}
 
 		retval = mxc_v4l_dqueue(cam, buf);
+		
 		break;
 	}
 
@@ -3318,6 +3324,7 @@ static __init int camera_init(void)
 		return-EINVAL;
 	}
 	
+	
 
 	white_gpio = 169; // get this from device tree
 	if (!gpio_is_valid(white_gpio)) {
@@ -3333,7 +3340,8 @@ static __init int camera_init(void)
 		printk(KERN_ALERT "unable to set white_gpio direction");
 		return-EINVAL;
 	}
-
+	
+	ledstate = 0;
 
 	return err;
 }
