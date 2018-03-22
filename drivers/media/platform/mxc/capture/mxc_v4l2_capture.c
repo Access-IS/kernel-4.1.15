@@ -47,12 +47,8 @@
 #include <linux/fsl_devices.h>
 #include "mxc_v4l2_capture.h"
 #include "ipu_prp_sw.h"
-#include <linux/of_gpio.h>
-
 
 #define init_MUTEX(sem)         sema_init(sem, 1)
-
-static int ir_gpio, white_gpio, ledstate;
 
 static struct platform_device_id imx_v4l2_devtype[] = {
 	{
@@ -2183,11 +2179,6 @@ static long mxc_v4l_do_ioctl(struct file *file,
 
 		buf->flags = cam->frame[index].buffer.flags;
 		spin_unlock_irqrestore(&cam->queue_int_lock, lock_flags);
-		
-		ledstate = !ledstate ;
-		
-		gpio_set_value(ir_gpio,ledstate);
-		
 		break;
 	}
 
@@ -2205,7 +2196,6 @@ static long mxc_v4l_do_ioctl(struct file *file,
 		}
 
 		retval = mxc_v4l_dqueue(cam, buf);
-		
 		break;
 	}
 
@@ -3307,41 +3297,6 @@ static __init int camera_init(void)
 			"platform_driver_register failed.\n");
 		return err;
 	}
-
-
-	ir_gpio = 167; // get this from device tree
-	if (!gpio_is_valid(ir_gpio)) {
-		printk(KERN_ALERT  "IR gpio is invalid");
-		return -EINVAL;
-	}
-	if(gpio_request(ir_gpio, "IR_led")){
-		printk(KERN_ALERT "Unable to request gpio %d", ir_gpio);
-		return -EINVAL;
-	}
-	
-	if( (gpio_direction_output(ir_gpio, 0)) < 0 ){
-		printk(KERN_ALERT "unable to set ir_gpio direction");
-		return-EINVAL;
-	}
-	
-	
-
-	white_gpio = 169; // get this from device tree
-	if (!gpio_is_valid(white_gpio)) {
-		printk(KERN_ALERT  "White gpio is invalid");
-		return -EINVAL;
-	}
-	if(gpio_request(white_gpio, "white_led")){
-		printk(KERN_ALERT "Unable to request gpio %d", white_gpio);
-		return -EINVAL;
-	}
-	
-	if( (gpio_direction_output(white_gpio, 0)) < 0 ){
-		printk(KERN_ALERT "unable to set white_gpio direction");
-		return-EINVAL;
-	}
-	
-	ledstate = 0;
 
 	return err;
 }
