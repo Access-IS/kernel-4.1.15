@@ -5,7 +5,6 @@
 /dts-v1/;
 
 #include "imx6dl.dtsi"
-#include <dt-bindings/gpio/gpio.h>
 
 / 
 
@@ -39,29 +38,6 @@
 		};
 
 
-	};
-
-	leds {
-		compatible = "gpio-leds";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_led>;
-		
-
-		led0: white {
-			label = "white";
-			gpios = <&gpio6 9 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-			linux,default-trigger = "gpio";
-		};
-		
-		led1: IR {
-			label = "IR";
-			gpios = <&gpio6 7 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
-			linux,default-trigger = "gpio";
-		};
-
-		
 	};
 
 
@@ -352,15 +328,6 @@
 				MX6QDL_PAD_DISP0_DAT1__ECSPI3_MOSI	0x1b0b1
 				MX6QDL_PAD_DISP0_DAT0__ECSPI3_SCLK	0x1b0b1
 				MX6QDL_PAD_DISP0_DAT3__GPIO4_IO24	0x1b0b1
-			>;
-		};
-		
-		pinctrl_led: ledgrp {
-			fsl,pins = <
-				MX6QDL_PAD_NANDF_CLE__GPIO6_IO07		0x1b0b1	/* IR */
-		//		MX6QDL_PAD_NANDF_ALE__GPIO6_IO08		0x1b0b1 /* booost - control this from app */
-				MX6QDL_PAD_NANDF_WP_B__GPIO6_IO09		0x1b0b1	/* white */
-		//		MX6QDL_PAD_NANDF_RB0__GPIO6_IO10		0x1b0b1 /* HI LOW - cotrol this from app or init*/
 			>;
 		};
 
