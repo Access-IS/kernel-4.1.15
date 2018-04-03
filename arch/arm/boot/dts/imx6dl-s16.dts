@@ -517,8 +517,8 @@
 	pinctrl-0 = <&pinctrl_swallow_ecspi3_1>;
 	status = "okay";
 
-	spansion_flash: s25fl512s@0x00 {
-		compatible = "spansion,s25fl512s", "jedec,spi-nor";
+	issi_flash: issi@0x00 {
+		compatible = "jedec,spi-nor";
 		spi-max-frequency = <50000000>;
 		reg = <0>;
 		#address-cells = <0x1>;
@@ -526,32 +526,29 @@
 
 		uboot@0 {
 			label = "uboot";
-			reg = <0x0 0xC0000>;
+			reg = <0x0 0x40000>;
 		};
-		ubenv@C0000 {
+		ubenv@40000 {
              label = "uboot-env";
-             reg = <0xC0000 0x40000>;
+             reg = <0x40000 0x40000>;
         };
-        dtb@100000 {
+        dtb@80000 {
 			label = "dtb";
-			reg = <0x100000 0x100000>;
+			reg = <0x80000 0x40000>;
 		};
-		kernel@200000 {
+		kernel@c0000 {
 			label = "kernel";
-			reg = <0x200000 0xA00000>;
+			reg = <0xc0000 0x440000>;
 		};
 		rootro@c00000 {
 			label = "root-ro";
-			reg = <0xC00000 0x1000000>;
+			reg = <0x500000 0x580000>;
 		};
 		rootrw@1c00000 {
 			label = "root-rw";
-			reg = <0x1C00000 0x800000>;
+			reg = <0xa800000 0x580000>;
 		};
-		spare@2400000 {
-			label = "spare";
-			reg = <0x2400000 0x1c00000>;
-		};
+		
 		
 	};
 	
