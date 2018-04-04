@@ -538,11 +538,11 @@
 		};
 		kernel@c0000 {
 			label = "kernel";
-			reg = <0xc0000 0x440000>;
+			reg = <0xc0000 0x580000>;
 		};
 		rootro@c00000 {
 			label = "root-ro";
-			reg = <0x500000 0x580000>;
+			reg = <0x640000 0x440000>;
 		};
 		rootrw@1c00000 {
 			label = "root-rw";
