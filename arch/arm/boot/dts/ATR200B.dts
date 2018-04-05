@@ -17,7 +17,7 @@
 
 
 	chosen {
-		bootargs = "console=ttymxc0,115200";
+		bootargs = "quiet console=ttymxc0,115200";
 	};
 
 
