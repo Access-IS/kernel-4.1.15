@@ -58,6 +58,7 @@ static struct fb_videomode lcdif_modedb[] = {
 	FB_SYNC_CLK_LAT_FALL,
 	FB_VMODE_NONINTERLACED,
 	0,},
+	{
 	/*480x272 @ 60 Hz , pixel clk @ 9 MHz */ /*previous pix clck 16800*/
 	"ACCESS43", 
 	.refresh = 60, 
