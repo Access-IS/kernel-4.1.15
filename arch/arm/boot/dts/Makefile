@@ -276,6 +276,7 @@ dtb-$(CONFIG_SOC_IMX6Q) += \
 	imx6dl-s16.dtb \
 	imx6dl-swallow.dtb \
         ATR200B.dtb \
+        imx6dl-val100.dtb \
 	imx6dl-nit6xlite.dtb \
 	imx6dl-nitrogen6_max.dtb \
 	imx6dl-nitrogen6_vm.dtb \
