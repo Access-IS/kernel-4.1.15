@@ -7,8 +7,8 @@
 #include "imx6qdl-cubox-i.dtsi"
 
 / {
-	model = "SolidRun Cubox-i Dual/Quad";
-	compatible = "solidrun,cubox-i/q", "fsl,imx6q";
+	model = "Access IS - VAL100";
+	compatible = "fsl,imx6q";
 
 
 chosen {
