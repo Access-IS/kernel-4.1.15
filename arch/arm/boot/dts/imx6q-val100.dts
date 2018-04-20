@@ -149,7 +149,7 @@
 		};
 		
 		enet {
-		pinctrl_microsom_enet_ar8035: microsom-enet-ar8035 {
+		pinctrl_enet_ar8035: ar8035 {
 			fsl,pins = <
 				MX6QDL_PAD_ENET_MDIO__ENET_MDIO		0x1b8b0
 				MX6QDL_PAD_ENET_MDC__ENET_MDC		0x1b0b0
@@ -180,13 +180,6 @@
 				/* AR8035 pin strapping: MODE#0: pull down */
 				MX6QDL_PAD_RGMII_RX_CTL__RGMII_RX_CTL	0x13030
 
-				/*
-				 * As the RMII pins are also connected to RGMII
-				 * so that an AR8030 can be placed, set these
-				 * to high-z with the same pulls as above.
-				 * Use the GPIO settings to avoid changing the
-				 * input select registers.
-				 */
 				MX6QDL_PAD_ENET_CRS_DV__GPIO1_IO25	0x03000
 				MX6QDL_PAD_ENET_RXD0__GPIO1_IO27	0x03000
 				MX6QDL_PAD_ENET_RXD1__GPIO1_IO26	0x03000
@@ -213,7 +206,7 @@
 
 &fec {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_microsom_enet_ar8035>;
+	pinctrl-0 = <&pinctrl_enet_ar8035>;
 	phy-mode = "rgmii";
 	phy-reset-duration = <2>;
 	phy-reset-gpios = <&gpio4 15 0>;
