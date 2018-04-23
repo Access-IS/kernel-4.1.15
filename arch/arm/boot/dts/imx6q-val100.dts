@@ -94,6 +94,11 @@
 		gpios = <&gpio2 10>; // PWRFAIL
 		input;
 	};
+	
+		bcmdhd_wlan_0: bcmdhd_wlan@0 {
+		compatible = "android,bcmdhd_wlan";
+        wlreg_on-supply = <&wlreg_on>;
+    };
 };
 
 &iomuxc {
@@ -329,7 +334,5 @@
 	enable-sdio-wakeup;
 	max-frequency = <25000000>;
 	wifi-host;
-	vmmc-supply = <&reg_3p3v>;
-	bus-width = <4>;
 	status = "okay";
 };
