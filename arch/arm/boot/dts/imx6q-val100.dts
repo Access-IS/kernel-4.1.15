@@ -48,6 +48,21 @@
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
 		};
+		
+		wlreg_on: wl-reg {
+			compatible = "regulator-fixed";
+ 			regulator-min-microvolt = <3300000>;
+ 			regulator-max-microvolt = <3300000>;
+ 			regulator-name = "wlreg_on";
+            pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_wifi_wlreg>;
+ 			gpio = <&gpio4 30 0>; /* WL_REG_ON */
+ 			startup-delay-us = <60000>; /* WL_REG_ON preferred is 60000: default 500 */
+ 			enable-active-high;
+ 			/*regulator-boot-on;*/
+ 			regulator-always-on;
+		};
+
 	};
 	
 	mxcfb1: fb@0 {
@@ -69,6 +84,15 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_ipu1_1>;
 		status = "okay";
+	};
+	
+		pwrfail {
+		compatible = "fsl";
+		status = "okay";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_val_pwrfail>;
+		gpios = <&gpio2 10>; // PWRFAIL
+		input;
 	};
 };
 
@@ -204,6 +228,28 @@
 				MX6QDL_PAD_EIM_D18__I2C3_SDA 0x4001b8b1
 			>;
 		};
+			pinctrl_wifi_wlreg: wifi-wlreg {
+			fsl,pins = <
+				MX6QDL_PAD_DISP0_DAT9__GPIO4_IO30	0x30
+				>;
+			};
+		
+			pinctrl_usdhc3: usdhc3grp {
+			fsl,pins = <
+				MX6QDL_PAD_SD3_CMD__SD3_CMD    0x17059
+				MX6QDL_PAD_SD3_CLK__SD3_CLK    0x10059
+				MX6QDL_PAD_SD3_DAT0__SD3_DATA0 0x17059
+				MX6QDL_PAD_SD3_DAT1__SD3_DATA1 0x17059
+				MX6QDL_PAD_SD3_DAT2__SD3_DATA2 0x17059
+				MX6QDL_PAD_SD3_DAT3__SD3_DATA3 0x17059
+				>;
+			};
+			
+			pinctrl_val_pwrfail: VAL-pwrfail {
+            fsl,pins = <
+                MX6QDL_PAD_SD4_DAT2__GPIO2_IO10     0x1b030
+            >;
+        };
 		};
 }; // &iomuxc
 
@@ -273,4 +319,17 @@
 
 	status = "okay";
 
+};
+
+
+
+&usdhc3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usdhc3>;
+	enable-sdio-wakeup;
+	max-frequency = <25000000>;
+	wifi-host;
+	vmmc-supply = <&reg_3p3v>;
+	bus-width = <4>;
+	status = "okay";
 };
