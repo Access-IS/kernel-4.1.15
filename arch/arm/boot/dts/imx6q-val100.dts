@@ -114,8 +114,6 @@
 	};
 
 
-
-
 };
 
 &iomuxc {
@@ -291,6 +289,11 @@
 		
 		};
 }; // &iomuxc
+
+
+&audmux {
+	status = "okay";
+};
 
 
 &ssi1 {
