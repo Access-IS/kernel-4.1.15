@@ -61,13 +61,6 @@ if grep -q '^CONFIG_MODULES=y' "${objtree}/.config"; then
 fi
 
 
-#
-# Install basic kernel files
-#
-cp -v -- "${objtree}/System.map" "${tmpdir}/boot/System.map-${KERNELRELEASE}"
-cp -v -- "${objtree}/.config" "${tmpdir}/boot/config-${KERNELRELEASE}"
-cp -v -- "${objtree}/vmlinux" "${tmpdir}/boot/vmlinux-${KERNELRELEASE}"
-
 
 #
 # Install arch-specific kernel image(s)
@@ -75,6 +68,9 @@ cp -v -- "${objtree}/vmlinux" "${tmpdir}/boot/vmlinux-${KERNELRELEASE}"
 case "${ARCH}" in
 	x86|i386|x86_64)
 		[ -f "${objtree}/arch/x86/boot/bzImage" ] && cp -v -- "${objtree}/arch/x86/boot/bzImage" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
+		;;
+	arm)
+		[ -f "${objtree}/arch/arm/boot/zImage" ] && cp -v -- "${objtree}/arch/arm/boot/zImage" "${tmpdir}/boot/zImage"
 		;;
 	alpha)
 		[ -f "${objtree}/arch/alpha/boot/vmlinux.gz" ] && cp -v -- "${objtree}/arch/alpha/boot/vmlinux.gz" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
