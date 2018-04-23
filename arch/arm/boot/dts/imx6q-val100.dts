@@ -32,7 +32,7 @@
 			enable-active-high;
 			gpio = <&gpio1 0 0>;
 			pinctrl-names = "default";
-			pinctrl-0 = <&pinctrl_cubox_i_usbh1_vbus>;
+			pinctrl-0 = <&pinctrl_ais_usbh1_vbus>;
 			regulator-name = "usb_h1_vbus";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
@@ -43,7 +43,7 @@
 			enable-active-high;
 			gpio = <&gpio3 22 0>;
 			pinctrl-names = "default";
-			pinctrl-0 = <&pinctrl_cubox_i_usbotg_vbus>;
+			pinctrl-0 = <&pinctrl_ais_usbotg_vbus>;
 			regulator-name = "usb_otg_vbus";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
@@ -157,12 +157,12 @@
 	};
 	
 			
-		val {
-		pinctrl_cubox_i_usbh1_vbus: cubox-i-usbh1-vbus {
+		ais {
+		pinctrl_ais_usbh1_vbus: ais-usbh1-vbus {
 			fsl,pins = <MX6QDL_PAD_GPIO_0__GPIO1_IO00 0x4001b0b0>;
 		};
 		
-		pinctrl_cubox_i_usbotg_vbus: cubox-i-usbotg-vbus {
+		pinctrl_ais_usbotg_vbus: ais-usbotg-vbus {
 			fsl,pins = <MX6QDL_PAD_EIM_D22__GPIO3_IO22 0x4001b0b0>;
 		};
 		
@@ -226,4 +226,17 @@
 	status = "okay";
 };
 
+&usbh1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_ais_usbh1_vbus>;
+	vbus-supply = <&reg_usbh1_vbus>;
+	status = "okay";
+};
+
+&usbotg {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_ais_usbotg_vbus>;
+	vbus-supply = <&reg_usbotg_vbus>;
+	status = "okay";
+};
 
