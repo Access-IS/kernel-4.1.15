@@ -62,6 +62,20 @@
  			/*regulator-boot-on;*/
  			regulator-always-on;
 		};
+		
+		btreg_on: bt-reg {
+			compatible = "regulator-fixed";
+ 			regulator-min-microvolt = <3300000>;
+ 			regulator-max-microvolt = <3300000>;
+ 			regulator-name = "btreg_on";
+            pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_wifi_btreg>;
+ 			gpio = <&gpio6 18 0>;
+			startup-delay-us = <60000>;
+ 			enable-active-high;
+ 			/*regulator-boot-on;*/
+ 			regulator-always-on;
+		};
 
 	};
 	
@@ -297,6 +311,19 @@
 				MX6QDL_PAD_DISP0_DAT9__GPIO4_IO30	0x30
 				>;
 			};
+		
+		
+		    pinctrl_wifi_btreg: wifi-btreg {
+			fsl,pins = <
+				MX6QDL_PAD_SD3_DAT6__GPIO6_IO18 	0x30
+			>;
+
+		};
+		
+		
+		
+		
+		
 		
 			pinctrl_usdhc3: usdhc3grp {
 			fsl,pins = <
