@@ -262,7 +262,23 @@
 			>;
 		};
 		
-		pinctrl_ais_i2c1: ais-i2c1 {
+			pinctrl_ais_uart2: ais-uart2 {
+			fsl,pins = <
+				MX6QDL_PAD_SD4_DAT7__UART2_TX_DATA	0x1b0b1
+				MX6QDL_PAD_SD4_DAT4__UART2_RX_DATA	0x1b0b1
+				MX6QDL_PAD_SD4_DAT5__UART2_RTS_B    0x1b0b0 /*RTS*/
+				MX6QDL_PAD_SD4_DAT6__UART2_CTS_B    0x1b0b0 /*CTS*/
+			>;
+		};
+
+			pinctrl_ais_uart3: ais-uart3 {
+			fsl,pins = <
+				MX6QDL_PAD_EIM_D24__UART3_TX_DATA	0x1b0b1
+				MX6QDL_PAD_EIM_D25__UART3_RX_DATA	0x1b0b1
+			>;
+		};
+		
+			pinctrl_ais_i2c1: ais-i2c1 {
 			fsl,pins = <
 				MX6QDL_PAD_EIM_D21__I2C1_SCL 0x4000a0b1 /*0x40000838 - old value*/
 				MX6QDL_PAD_EIM_D28__I2C1_SDA 0x4000a0b1
@@ -425,4 +441,17 @@
 	pinctrl-0 = <&pinctrl_pwm3>;
         status = "okay";
 	/*backlight*/
+};
+
+&uart2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_ais_uart2>;
+	fsl,uart-has-rtscts;
+	status = "okay";
+};
+
+&uart3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_ais_uart3>;
+	status = "okay";
 };
