@@ -249,12 +249,6 @@
 			>;
 		};
 
-			pinctrl_ais_i2c3: ais-i2c3 {
-			fsl,pins = <
-				MX6QDL_PAD_EIM_D17__I2C3_SCL 0x4001b8b1
-				MX6QDL_PAD_EIM_D18__I2C3_SDA 0x4001b8b1
-			>;
-		};
 			pinctrl_wifi_wlreg: wifi-wlreg {
 			fsl,pins = <
 				MX6QDL_PAD_DISP0_DAT9__GPIO4_IO30	0x30
@@ -375,16 +369,8 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_ais_i2c2>;
 	status = "okay";
+	
 };
-
-&i2c3 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_ais_i2c3>;
-
-	status = "okay";
-
-};
-
 
 
 &usdhc3 {
