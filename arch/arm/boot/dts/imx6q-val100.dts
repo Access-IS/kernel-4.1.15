@@ -49,18 +49,14 @@
 			regulator-max-microvolt = <5000000>;
 		};
 		
-		wlreg_on: wl-reg {
+		 wlreg_on: fixedregulator {
 			compatible = "regulator-fixed";
- 			regulator-min-microvolt = <3300000>;
- 			regulator-max-microvolt = <3300000>;
- 			regulator-name = "wlreg_on";
-            pinctrl-names = "default";
+			regulator-name = "wlreg_on";
+			pinctrl-names = "default";
 			pinctrl-0 = <&pinctrl_wifi_wlreg>;
- 			gpio = <&gpio4 30 0>; /* WL_REG_ON */
- 			startup-delay-us = <60000>; /* WL_REG_ON preferred is 60000: default 500 */
- 			enable-active-high;
- 			/*regulator-boot-on;*/
- 			regulator-always-on;
+			gpio = <&gpio4 30 0>;
+			startup-delay-us = <60000>;
+			enable-active-high;
 		};
 		
 		btreg_on: bt-reg {
