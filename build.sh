@@ -4,9 +4,9 @@ ARCH=arm CROSS_COMPILE=arm-linux- make mrproper
 ARCH=arm CROSS_COMPILE=arm-linux- make val_defconfig 
 ARCH=arm CROSS_COMPILE=arm-linux- make dtbs 
 ARCH=arm CROSS_COMPILE=arm-linux- make -j8
-ARCH=arm CROSS_COMPILE=arm-linux- make tarbz2-pkg
-rm -rf tar-install/lib/modules/4.1.15/source
-rm -rf tar-install/lib/modules/4.1.15/build
+#ARCH=arm CROSS_COMPILE=arm-linux- make tarbz2-pkg
+#rm -rf tar-install/lib/modules/4.1.15/source
+#rm -rf tar-install/lib/modules/4.1.15/build
 #ssh root@10.1.30.4 'rm -rf /lib/modules/*'
 #scp -r tar-install/lib/modules/4.1.15 root@10.1.30.4:/lib/modules/
 #scp -r arch/arm/boot/zImage  root@10.1.30.4:/boot/
