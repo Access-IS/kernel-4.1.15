@@ -136,14 +136,16 @@ echo "Tarball successfully created in ${tarball}${file_ext}"
 #
 # create update package
 
+gitrev=`/usr/bin/git rev-parse --short HEAD`
 if [ -d  "${objtree}/upgrade" ] ; then rm -rf "${objtree}/upgrade" ; fi 
 mkdir "${objtree}/upgrade" 
 cp -a "${tmpdir}/boot/zImage" "${objtree}/upgrade/"
 cp -a "${objtree}/arch/arm/boot/dts/imx6q-val100.dtb" "${objtree}/upgrade/"
 /usr/bin/mksquashfs "${tmpdir}"  "${objtree}/upgrade/kmod.squash" -comp xz
 md5sum upgrade/* > "${objtree}/upgrade/MD5SUM"
-tar -czf upgrade.tar.gz "${objtree}/upgrade"
+tar -czf upgrade-"${gitrev}.tar.gz" "${objtree}/upgrade"
 
-echo "update package created : upgrade.tar.gz"
+
+echo "update package created : upgrade-${gitrev}.tar.gz"
 
 exit 0
