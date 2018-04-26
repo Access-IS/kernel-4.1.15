@@ -116,6 +116,9 @@ case "${ARCH}" in
 		;;
 esac
 
+# clean up build and source symlinks
+rm -rf "${tmpdir}/lib/modules/${KERNELRELEASE}/build"
+rm -rf "${tmpdir}/lib/modules/${KERNELRELEASE}/source"
 
 #
 # Create the tarball
