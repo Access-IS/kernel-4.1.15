@@ -208,6 +208,13 @@ config DEFAULT_HOSTNAME
 	  but you may wish to use a different default here to make a minimal
 	  system more usable with less configuration.
 
+config UPGRADE_DTBFILE
+	string "DTB file for the upgrade package build"
+	default "(none)"
+	help
+	  This option determines the device tree blob used in mkupdatepkg (post build)script.
+	  mkupdatepkg script picks up this variable from .config after a kernel build.
+
 config SWAP
 	bool "Support for paging of anonymous memory (swap)"
 	depends on MMU && BLOCK

@@ -3,11 +3,16 @@
 # create update package
 
 gitrev=`/usr/bin/git rev-parse --short HEAD`
+dtbfile=`grep CONFIG_UPGRADE_DTBFILE .config | awk -F '"' '{print $2}'`
+if [ -z "$dtbfile" ]; then 
+    echo "upgrade dtb file is not set in .config, aborting"
+    exit 1;
+fi
 if [ -d upgrade ] ; then rm -rf upgrade ; fi 
 if [ -f upgrade*.tar.xz ] ; then rm -rf upgrade*.tar.xz ; fi 
 mkdir upgrade
 cp -a arch/arm/boot/zImage upgrade/
-cp -a arch/arm/boot/dts/imx6q-val100.dtb upgrade/
+cp -a arch/arm/boot/dts/$dtbfile upgrade/
 fakeroot chown -R root.root upgrade/
 fakeroot /usr/bin/mksquashfs upgrade  upgrade/kmod.squash -comp xz
 fakeroot md5sum upgrade/* > upgrade/MD5SUM
