@@ -99,7 +99,7 @@ tar%pkg: FORCE
 	$(MAKE) KBUILD_SRC=
 	$(CONFIG_SHELL) $(srctree)/scripts/package/buildtar $@
 
-clean-dirs += $(objtree)/tar-install/  $(objtree)/upgrade* 
+clean-dirs += $(objtree)/tar-install/  $(objtree)/upgrade/ 
 
 
 # perf-pkg - generate a source tarball with perf source
