@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# create update package
+
+gitrev=`/usr/bin/git rev-parse --short HEAD`
+if [ -d upgrade ] ; then rm -rf upgrade ; fi 
+if [ -f upgrade*.tar.xz ] ; then rm -rf upgrade*.tar.xz ; fi 
+mkdir upgrade
+cp -a arch/arm/boot/zImage upgrade/
+cp -a arch/arm/boot/dts/imx6q-val100.dtb upgrade/
+fakeroot chown -R root.root upgrade/
+fakeroot /usr/bin/mksquashfs upgrade  upgrade/kmod.squash -comp xz
+fakeroot md5sum upgrade/* > upgrade/MD5SUM
+tar -cJf upgrade-$gitrev.tar.xz upgrade
+
+echo "update package created : upgrade-$gitrev.tar.xz"
