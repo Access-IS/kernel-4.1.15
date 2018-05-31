@@ -59,6 +59,22 @@ static struct fb_videomode lcdif_modedb[] = {
 	FB_VMODE_NONINTERLACED,
 	0,},
 	{
+	/*480x272 @ 60 Hz , pixel clk @ 9 MHz */ /*previous pix clck 16800*/
+	"ACCESS43", 
+	.refresh = 60, 
+	.xres = 480, 
+	.yres = 272, 
+	.pixclock = 111111, 
+	.left_margin = 40, 
+	.right_margin = 5, 
+	.hsync_len = 1, 
+	.upper_margin = 8, 
+	.lower_margin = 8, 
+	.vsync_len = 1,
+	FB_SYNC_CLK_LAT_FALL,
+	FB_VMODE_NONINTERLACED,
+	0,},
+	{
 	/* sharp wvga 800x480 */
 	"sharp-wvga", 60, 800, 480, 1000000000/928 * 1000 /525/60,
 	.left_margin = 40, .right_margin = 40,
