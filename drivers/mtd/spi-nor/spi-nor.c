@@ -577,7 +577,7 @@ static const struct spi_device_id spi_nor_ids[] = {
 	/* ISSI */
 	{ "is25lp032", INFO(0x9d6016, 0, 64 * 1024,  64, SECT_4K) },
 	{ "is25lp064", INFO(0x9d6017, 0, 64 * 1024, 128, SECT_4K) },
-	{ "is25lp128", INFO(0x9d6018, 0, 64 * 1024, 256, SECT_4K) },
+	{ "is25lp128", INFO(0x9d6018, 0, 32 * 1024,   512, SECT_4K) },
 
 	{ "is25wp032", INFO(0x9d7016, 0, 64 * 1024,  64, SECT_4K) },
 	{ "is25wp064", INFO(0x9d7017, 0, 64 * 1024, 128, SECT_4K) },
