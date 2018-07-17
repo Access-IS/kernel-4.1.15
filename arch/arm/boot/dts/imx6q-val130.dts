@@ -280,6 +280,12 @@
 			>;
 		};
 
+            pinctrl_ais_ts: ais-ts {
+			fsl,pins = <
+				MX6QDL_PAD_GPIO_17__GPIO7_IO12 0x0001B0B0 
+			>;
+		};
+
 			
 			pinctrl_val_pwrfail: VAL-pwrfail {
             fsl,pins = <
@@ -301,6 +307,7 @@
 				MX6QDL_PAD_SD4_DAT1__PWM3_OUT 0x1b0b1
 			>;
 		};
+        
 		
 		};
 }; // &iomuxc
@@ -386,6 +393,15 @@
 	pinctrl-0 = <&pinctrl_ais_i2c3>;
 	status = "okay";
 	
+    touchscreen: egalax_i2c@3 {
+           compatible = "eeti,egalax_ts";
+           pinctrl-names = "default";
+           pincrtl-0 = <&pinctrl_ais_ts>;
+           reg = <0x2a>;
+           interrupt-parent = <&gpio7>;
+           interrupts = <12 8>;
+           wakeup-gpios = <&gpio7 12 0>;
+     };
 
 };
 
