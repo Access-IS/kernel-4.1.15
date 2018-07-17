@@ -316,6 +316,7 @@ dtb-$(CONFIG_SOC_IMX6Q) += \
 	imx6q-cob.dtb \
 	imx6q-cubox-i.dtb \
 	imx6q-val100.dtb \
+	imx6q-val130.dtb \
 	imx6q-dfi-fs700-m60.dtb \
 	imx6q-dmo-edmqmx6.dtb \
 	imx6q-eo.dtb \
