@@ -393,16 +393,13 @@
 	pinctrl-0 = <&pinctrl_ais_i2c3>;
 	status = "okay";
 	
-    touchscreen: egalax_i2c@3 {
-           compatible = "eeti,egalax_ts";
-           pinctrl-names = "default";
-           pincrtl-0 = <&pinctrl_ais_ts>;
-           reg = <0x2a>;
-           interrupt-parent = <&gpio7>;
-           interrupts = <12 8>;
-           wakeup-gpios = <&gpio7 12 0>;
-     };
-
+    touchscreen: egalax_ts@03 {
+		compatible = "eeti,egalax_ts";
+		reg = <0x2a>;
+		interrupt-parent = <&gpio7>;
+		interrupts = <12 2>;
+		wakeup-gpios = <&gpio7 12 GPIO_ACTIVE_LOW>;
+	};
 };
 
 
