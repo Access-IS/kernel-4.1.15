@@ -218,7 +218,7 @@ static int egalax_ts_probe(struct i2c_client *client,
 
 	error = devm_request_threaded_irq(&client->dev, client->irq, NULL,
 					  egalax_ts_interrupt,
-					  IRQF_TRIGGER_LOW | IRQF_ONESHOT,
+					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
 					  "egalax_ts", ts);
 	if (error < 0) {
 		dev_err(&client->dev, "Failed to register interrupt\n");
