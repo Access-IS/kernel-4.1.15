@@ -62,6 +62,8 @@
 struct egalax_ts {
 	struct i2c_client		*client;
 	struct input_dev		*input_dev;
+    char			phys[32];
+
 };
 
 static irqreturn_t egalax_ts_interrupt(int irq, void *dev_id)
@@ -198,8 +200,10 @@ static int egalax_ts_probe(struct i2c_client *client,
 
 	ts->client = client;
 	ts->input_dev = input_dev;
+    snprintf(ts->phys, sizeof(ts->phys),"%s/input0", dev_name(&client->dev));
 
 	input_dev->name = "EETI eGalax Touch Screen";
+    input_dev->phys = ts->phys;
 	input_dev->id.bustype = BUS_I2C;
 
 	__set_bit(EV_ABS, input_dev->evbit);
