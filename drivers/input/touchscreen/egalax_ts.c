@@ -77,9 +77,9 @@ static irqreturn_t egalax_ts_interrupt(int irq, void *dev_id)
 	bool down, valid;
 	u8 state;
 
-	do {
-		ret = i2c_master_recv(client, buf, MAX_I2C_DATA_LEN);
-	} while (ret == -EAGAIN && tries++ < EGALAX_MAX_TRIES);
+
+    ret = i2c_master_recv(client, buf, MAX_I2C_DATA_LEN);
+    print_hex_dump_bytes("data:", DUMP_PREFIX_NONE, buf, MAX_I2C_DATA_LEN);
 
 	if (ret < 0)
 		return IRQ_HANDLED;
