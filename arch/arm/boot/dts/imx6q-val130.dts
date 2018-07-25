@@ -395,7 +395,7 @@
 	status = "okay";
 	
     touchscreen: egalax_ts@03 {
-		compatible = "eeti,egalax_ts";
+		compatible = "val130_ts";
 		reg = <0x2a>;
 		interrupt-parent = <&gpio7>;
 		interrupts = <12 2>;

@@ -438,7 +438,7 @@ config TOUCHSCREEN_ELAN
 
 	  To compile this driver as a module, choose M here: the
 	  module will be called elants_i2c.
-
+      
 config TOUCHSCREEN_ELO
 	tristate "Elo serial touchscreens"
 	select SERIO
@@ -450,6 +450,19 @@ config TOUCHSCREEN_ELO
 
 	  To compile this driver as a module, choose M here: the
 	  module will be called elo.
+
+config TOUCHSCREEN_VAL130
+	tristate "VAL130 egalaxy based touchscreen support"
+	depends on I2C && OF
+    help
+	  Say Y here to enable egalaxy based touchscreen support (VAL130)
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called val130_ts
+    
+
 
 config TOUCHSCREEN_WACOM_W8001
 	tristate "Wacom W8001 penabled serial touchscreen"
