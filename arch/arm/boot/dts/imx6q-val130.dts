@@ -430,6 +430,11 @@
 };
 
 
+&usbh1 {
+        pinctrl-names = "default";
+        status = "okay";
+};
+
 &usbotg {
 	disable-over-current;
 	pinctrl-names = "default";
